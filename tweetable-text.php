@@ -82,7 +82,7 @@ class TweetableText {
 		// [tweetable] shortcode attributes
 		// @param string alt, an alternate tweet
 		// @param string hashtag, a hashtag to attach to the tweet
-		// @via string a twitter username to use as the via attribute (no @ sign)
+		// @param string via a twitter username to use as the via attribute (no @ sign)
 		extract( shortcode_atts( array(
 			'alt'     	=> '',
 			'hashtag' 	=> '',
