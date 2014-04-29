@@ -119,7 +119,6 @@ class TweetableText {
 	        return false;
 
 	    $path = dirname( __FILE__ ) . "/templates/{$template}.php";
-	    $path = apply_filters( 'liveblog', $path, $template );
 
 	    include $path;
 
