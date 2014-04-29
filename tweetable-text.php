@@ -76,8 +76,9 @@ class TweetableText {
 		global $post;
 
 		// bail if not a post
-		if ( ! get_post_type( $post ) == 'post' )
+		if ( ! get_post_type( $post ) == 'post' ) {
 			return $content;
+		}
 
 		// [tweetable] shortcode attributes
 		// @param string alt, an alternate tweet
@@ -101,8 +102,12 @@ class TweetableText {
 		if ( !$via && of_get_option('twitter_link') && function_exists('twitter_url_to_username') )
 			$via = twitter_url_to_username( of_get_option('twitter_link') );
 
-		if ( $alt ) $tweetcontent = $alt;
-		if ( $hashtag ) $tweetcontent .= ' ' . $hashtag;
+		if ( $alt ) {
+			$tweetcontent = $alt;
+		}
+		if ( $hashtag ) {
+			$tweetcontent .= ' ' . $hashtag;
+		}
 
 		ob_start();
 			self::template( 'tweet', compact( 'content', 'tweetcontent', 'permalink', 'via' ) );
