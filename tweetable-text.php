@@ -83,11 +83,16 @@ class TweetableText {
 		// @param string alt, an alternate tweet
 		// @param string hashtag, a hashtag to attach to the tweet
 		// @param string via a twitter username to use as the via attribute (no @ sign)
-		extract( shortcode_atts( array(
+		$atts = shortcode_atts( array(
 			'alt'     	=> '',
 			'hashtag' 	=> '',
 			'via'		=> '',
-		), $atts ) );
+		), $atts );
+		$alt = sanitize_text_field( $atts['alt'] );
+		$hashtag = sanitize_text_field( $atts['hashtag'] );
+		$via = sanitize_text_field( $atts['via'] );
+		$content = wp_kses_post( $content );
+
 		$permalink = get_permalink( $post->ID );
 		$tweetcontent = ucfirst( strip_tags( $content ) );
 
