@@ -76,18 +76,24 @@ class TweetableText {
 		global $post;
 
 		// bail if not a post
-		if ( ! get_post_type( $post ) == 'post' )
+		if ( ! get_post_type( $post ) == 'post' ) {
 			return $content;
+		}
 
 		// [tweetable] shortcode attributes
 		// @param string alt, an alternate tweet
 		// @param string hashtag, a hashtag to attach to the tweet
 		// @param string via a twitter username to use as the via attribute (no @ sign)
-		extract( shortcode_atts( array(
+		$atts = shortcode_atts( array(
 			'alt'     	=> '',
 			'hashtag' 	=> '',
 			'via'		=> '',
-		), $atts ) );
+		), $atts );
+		$alt = sanitize_text_field( $atts['alt'] );
+		$hashtag = sanitize_text_field( $atts['hashtag'] );
+		$via = sanitize_text_field( $atts['via'] );
+		$content = wp_kses_post( $content );
+
 		$permalink = get_permalink( $post->ID );
 		$tweetcontent = ucfirst( strip_tags( $content ) );
 
@@ -96,8 +102,12 @@ class TweetableText {
 		if ( !$via && of_get_option('twitter_link') && function_exists('twitter_url_to_username') )
 			$via = twitter_url_to_username( of_get_option('twitter_link') );
 
-		if ( $alt ) $tweetcontent = $alt;
-		if ( $hashtag ) $tweetcontent .= ' ' . $hashtag;
+		if ( $alt ) {
+			$tweetcontent = $alt;
+		}
+		if ( $hashtag ) {
+			$tweetcontent .= ' ' . $hashtag;
+		}
 
 		ob_start();
 			self::template( 'tweet', compact( 'content', 'tweetcontent', 'permalink', 'via' ) );
@@ -119,7 +129,6 @@ class TweetableText {
 	        return false;
 
 	    $path = dirname( __FILE__ ) . "/templates/{$template}.php";
-	    $path = apply_filters( 'liveblog', $path, $template );
 
 	    include $path;
 
